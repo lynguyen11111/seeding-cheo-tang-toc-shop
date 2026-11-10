@@ -79,9 +79,9 @@ label{font-weight:600;font-size:.9rem;display:block}
 }
 .sb-heading{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--sidebar-dim);white-space:nowrap;margin:4px 0 0;padding:0 8px;opacity:0;transition:opacity .25s}
 .sidebar:hover .sb-heading,.sidebar:focus-within .sb-heading{opacity:1}
-.side-shop-pill{display:flex;gap:9px;align-items:center;background:var(--gold-grad);color:var(--gold-ink);border-radius:999px;padding:6px 14px 6px 6px;box-shadow:var(--shadow-row),inset 0 1px 0 rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;align-self:flex-start;max-width:100%}
-.pill-text{max-width:0;opacity:0;overflow:hidden;transition:max-width .3s ease,opacity .2s ease;line-height:1.25}
-.sidebar:hover .pill-text,.sidebar:focus-within .pill-text{max-width:230px;opacity:1}
+.side-shop-pill{display:inline-flex;gap:9px;align-items:center;background:var(--gold-grad);color:var(--gold-ink);border-radius:999px;padding:6px 14px 6px 6px;box-shadow:var(--shadow-row),inset 0 1px 0 rgba(255,255,255,.6);align-self:flex-start}
+.pill-text{display:none;line-height:1.3}
+.sidebar:hover .pill-text,.sidebar:focus-within .pill-text{display:block}
 .side-nav{display:flex;flex-direction:column;gap:6px}
 .nav-item{display:flex;align-items:center;justify-content:center;gap:11px;background:transparent;border:none;color:var(--sidebar-dim);font-size:.95rem;font-weight:700;padding:8px 10px;border-radius:12px;cursor:pointer;text-align:left;white-space:nowrap;font-family:inherit}
 .sidebar:hover .nav-item,.sidebar:focus-within .nav-item{justify-content:flex-start}
@@ -92,6 +92,7 @@ label{font-weight:600;font-size:.9rem;display:block}
 .nav-label{max-width:0;opacity:0;overflow:hidden;transition:max-width .3s ease,opacity .2s ease}
 .sidebar:hover .nav-label,.sidebar:focus-within .nav-label{max-width:200px;opacity:1}
 .nav-count{background:var(--gold-grad);color:var(--gold-ink);border-radius:999px;font-size:.75rem;padding:1px 8px;font-weight:800}
+.nav-count:empty{display:none}
 .side-expanded-only{display:none}
 .sidebar:hover .side-expanded-only,.sidebar:focus-within .side-expanded-only{display:block}
 .side-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px;min-width:270px}
@@ -168,7 +169,8 @@ section.block{margin-bottom:22px}
   .sidebar{position:static;width:100%;height:auto;overflow:visible}
   .sidebar:hover,.sidebar:focus-within{width:100%}
   .sb-heading{opacity:1}
-  .pill-text,.nav-label{max-width:none;opacity:1}
+  .pill-text{display:block}
+  .nav-label{max-width:none;opacity:1}
   .side-expanded-only{display:block}
   .nav-item{justify-content:flex-start}
   .side-nav{flex-direction:row;flex-wrap:wrap}
