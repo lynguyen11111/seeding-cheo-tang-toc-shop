@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seeding chéo — Tăng Tốc Shop</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+</head>
+<body>
+
+<!-- ============ MÀN HÌNH ĐĂNG NHẬP / ĐĂNG KÝ ============ -->
+<div id="auth-view" class="auth-wrap hidden">
+  <div class="auth-card">
+    <div class="auth-logo">🚀</div>
+    <h1>Seeding chéo</h1>
+    <p class="auth-sub">Cộng đồng shop sỉ tương tác chéo — Tăng Tốc Shop<br>
+    Đăng nhập bằng email + mật khẩu, không cần OTP.</p>
+
+    <div id="auth-error" class="alert error hidden"></div>
+    <div id="auth-info" class="alert info hidden"></div>
+
+    <form id="login-form">
+      <label>Email
+        <input type="email" id="login-email" required autocomplete="email" placeholder="ban@email.com">
+      </label>
+      <label>Mật khẩu
+        <input type="password" id="login-password" required autocomplete="current-password" placeholder="••••••••">
+      </label>
+      <button type="submit" class="btn primary big">Đăng nhập</button>
+      <p class="auth-switch">Chưa có tài khoản? <a href="#" id="show-register">Đăng ký shop mới</a></p>
+    </form>
+
+    <form id="register-form" class="hidden">
+      <label>Tên shop của bạn
+        <input type="text" id="reg-shop-name" required placeholder="VD: Shop Sỉ Quần Áo Bé Na">
+      </label>
+      <label>Email
+        <input type="email" id="reg-email" required autocomplete="email" placeholder="ban@email.com">
+      </label>
+      <label>Mật khẩu (tối thiểu 6 ký tự)
+        <input type="password" id="reg-password" required minlength="6" autocomplete="new-password" placeholder="••••••••">
+      </label>
+      <button type="submit" class="btn primary big">Đăng ký &amp; tạo shop (tặng 10 điểm)</button>
+      <p class="auth-switch">Đã có tài khoản? <a href="#" id="show-login">Đăng nhập</a></p>
+    </form>
+
+    <form id="create-shop-form" class="hidden">
+      <p class="auth-sub">Tài khoản đã có, giờ tạo shop để bắt đầu (được tặng 10 điểm):</p>
+      <label>Tên shop của bạn
+        <input type="text" id="create-shop-name" required placeholder="VD: Shop Sỉ Quần Áo Bé Na">
+      </label>
+      <button type="submit" class="btn primary big">Tạo shop</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ ỨNG DỤNG CHÍNH ============ -->
+<div id="app-view" class="layout hidden">
+
+  <!-- Thanh bên: mặc định thu nhỏ (chỉ icon), rê chuột vào thì mở rộng -->
+  <aside id="sidebar" class="sidebar">
+    <div class="side-brand">
+      <span class="side-brand-icon">🚀</span>
+      <span class="side-brand-text">KHÔNG GIAN LÀM VIỆC</span>
+    </div>
+    <div class="side-shop-pill">
+      <span class="pill-badge" id="pill-code">A</span>
+      <span class="pill-text"><b id="pill-name">Shop</b><br><small id="pill-points">0 điểm</small></span>
+    </div>
+    <nav class="side-nav" id="side-nav">
+      <button data-view="overview" class="nav-item active"><span class="nav-ic">🏠</span><span class="nav-label">Tổng quan</span></button>
+      <button data-view="shops" class="nav-item"><span class="nav-ic">🏪</span><span class="nav-label">Quản lý shop</span></button>
+      <button data-view="tasks" class="nav-item"><span class="nav-ic">🎯</span><span class="nav-label">Nhiệm vụ</span><span class="nav-count" id="nav-task-count"></span></button>
+      <button data-view="ranking" class="nav-item"><span class="nav-ic">🏆</span><span class="nav-label">Bảng xếp hạng</span></button>
+      <button data-view="posts" class="nav-item"><span class="nav-ic">📝</span><span class="nav-label">Bài viết</span></button>
+      <button data-view="account" class="nav-item"><span class="nav-ic">👤</span><span class="nav-label">Tài khoản</span></button>
+      <button data-view="admin" class="nav-item hidden" id="nav-admin"><span class="nav-ic">🛡️</span><span class="nav-label">Admin</span></button>
+    </nav>
+
+    <!-- Khối chỉ hiện khi thanh bên mở rộng -->
+    <div class="side-expanded-only">
+      <div class="side-box">
+        <h4>⚙️ Cài đặt tài khoản</h4>
+        <p class="side-small">Shop đang dùng: <b id="side-shop-name">—</b></p>
+        <p class="side-small">Số dư điểm: <b id="side-points">0</b> · Nick Facebook: <b id="side-nick-count">0</b>/3</p>
+        <button class="btn ghost small" id="btn-logout">Đăng xuất</button>
+      </div>
+      <div class="side-box">
+        <h4>➕ Thêm nhiệm vụ (đăng bài nhanh)</h4>
+        <form id="quick-post-form">
+          <input type="text" id="qp-title" required placeholder="Tên sản phẩm / nhiệm vụ">
+          <input type="url" id="qp-url" required placeholder="Link bài Facebook">
+          <label class="side-small">Số comment muốn nhận (tối đa 50)
+            <input type="number" id="qp-wanted" min="1" max="50" value="5" required>
+          </label>
+          <p class="cost-hint" id="qp-cost"></p>
+          <button type="submit" class="btn teal small">Đăng bài cần seeding</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ===== TỔNG QUAN ===== -->
+    <section id="view-overview" class="view">
+      <div class="hero card">
+        <div>
+          <h2 id="hero-title">Xin chào 👋</h2>
+          <p>Đi comment cho shop khác để kiếm điểm — dùng điểm để bài của bạn được nhận comment.</p>
+        </div>
+        <div class="hero-points"><span>🪙</span><b id="hero-points">0</b><small>điểm</small></div>
+      </div>
+
+      <div class="tops-grid">
+        <div class="card">
+          <h3>🔥 Top điểm đi tương tác</h3>
+          <div id="top-givers"></div>
+        </div>
+        <div class="card">
+          <h3>💛 Top nhận điểm tương tác</h3>
+          <div id="top-receivers"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📌 Nhiệm vụ đang diễn ra</h3>
+        <p class="muted small">Mỗi nhiệm vụ 1 dòng: shop · nhiệm vụ · link FB · yêu cầu · tiến độ. Bài đã hoàn thành sẽ tự ẩn.</p>
+        <div id="ongoing-list"></div>
+      </div>
+
+      <div class="card">
+        <h3>🧾 Biến động điểm gần đây</h3>
+        <div id="ledger-list"></div>
+      </div>
+    </section>
+
+    <!-- ===== QUẢN LÝ SHOP ===== -->
+    <section id="view-shops" class="view hidden">
+      <div class="card">
+        <h3>🏪 Shop của tôi</h3>
+        <div id="my-shop-info"></div>
+      </div>
+      <div class="card">
+        <h3>📘 Nick Facebook của shop (<span id="nick-count-title">0</span>/3)</h3>
+        <p class="muted small">Chỉ cần thêm tên + link profile là dùng ngay, <b>không cần xác minh</b>.
+          Mã nick (A01, A02...) là mã nội bộ để tính điểm từng nick rồi cộng dồn lên shop — không xuất hiện trong comment.</p>
+        <div id="nick-list"></div>
+        <form id="add-nick-form" class="inline-form">
+          <input type="text" id="nick-name" required placeholder="Tên hiển thị của nick">
+          <input type="url" id="nick-url" required placeholder="https://www.facebook.com/ten.nick">
+          <button type="submit" class="btn teal">Thêm nick</button>
+        </form>
+        <div id="nick-error" class="alert error hidden"></div>
+      </div>
+      <div class="card">
+        <h3>👥 Tất cả shop trong hệ thống</h3>
+        <div id="all-shops"></div>
+      </div>
+    </section>
+
+    <!-- ===== NHIỆM VỤ ===== -->
+    <section id="view-tasks" class="view hidden">
+      <div class="card">
+        <h3>🎯 Việc được giao cho nick của bạn</h3>
+        <p class="muted small">Luồng nhanh: bấm <b>Mở bài</b> (web tự sao chép câu gợi ý + mở Facebook) → dán comment → quay lại bấm <b>Xong</b>.
+          Nút Xong mở sau 25 giây. Xong là cộng điểm ngay và tự chuyển việc tiếp theo.</p>
+        <div class="nick-tabs" id="nick-tabs"></div>
+        <p class="muted small" id="today-progress"></p>
+        <div id="task-list"></div>
+      </div>
+    </section>
+
+    <!-- ===== BẢNG XẾP HẠNG ===== -->
+    <section id="view-ranking" class="view hidden">
+      <div class="tops-grid">
+        <div class="card"><h3>🔥 Top shop đi tương tác nhiều</h3><div id="rank-givers"></div></div>
+        <div class="card"><h3>💛 Top shop nhận nhiều nhất</h3><div id="rank-receivers"></div></div>
+      </div>
+      <div class="card"><h3>⭐ Top nick chăm nhất</h3><div id="rank-nicks"></div></div>
+    </section>
+
+    <!-- ===== BÀI VIẾT ===== -->
+    <section id="view-posts" class="view hidden">
+      <div class="card">
+        <h3>📝 Đăng bài cần seeding</h3>
+        <form id="post-form">
+          <label>Tên sản phẩm / nhiệm vụ
+            <input type="text" id="pf-title" required placeholder="VD: Áo thun form rộng">
+          </label>
+          <label>Link bài Facebook
+            <input type="url" id="pf-url" required placeholder="https://www.facebook.com/...">
+          </label>
+          <label>Ngành hàng
+            <select id="pf-category">
+              <option value="thoi-trang">Thời trang</option>
+              <option value="my-pham">Mỹ phẩm / làm đẹp</option>
+              <option value="gia-dung">Gia dụng</option>
+              <option value="thuc-pham">Thực phẩm / đồ ăn</option>
+              <option value="me-va-be">Mẹ &amp; bé</option>
+              <option value="chung">Khác / chung</option>
+            </select>
+          </label>
+          <label>Caption bài bán hàng (để sinh câu gợi ý sát sản phẩm)
+            <textarea id="pf-caption" rows="3" placeholder="Dán caption bài bán hàng vào đây..."></textarea>
+          </label>
+          <label>Số comment muốn nhận (tối đa 50)
+            <input type="number" id="pf-wanted" min="1" max="50" value="5" required>
+          </label>
+          <p class="cost-hint" id="pf-cost"></p>
+          <label class="checkbox-row"><input type="checkbox" id="pf-use-samples" checked> Tạo nội dung gợi ý tự động từ mẫu câu (miễn phí)</label>
+          <button type="button" class="btn ghost" id="btn-preview-samples">👀 Xem trước câu gợi ý</button>
+          <div id="samples-preview" class="samples-preview hidden"></div>
+          <button type="submit" class="btn primary">Đăng bài &amp; bắt đầu chia việc</button>
+        </form>
+        <div id="post-error" class="alert error hidden"></div>
+      </div>
+      <div class="card">
+        <h3>📄 Bài của shop — mới nhất xếp trước, bài hoàn thành tự ẩn</h3>
+        <div id="my-posts"></div>
+      </div>
+    </section>
+
+    <!-- ===== TÀI KHOẢN ===== -->
+    <section id="view-account" class="view hidden">
+      <div class="card">
+        <h3>👤 Cài đặt tài khoản</h3>
+        <div id="account-info"></div>
+        <form id="rename-form" class="inline-form">
+          <input type="text" id="rename-input" placeholder="Tên shop mới">
+          <button type="submit" class="btn teal">Đổi tên shop</button>
+        </form>
+        <hr>
+        <button class="btn ghost" id="btn-logout-2">Đăng xuất</button>
+      </div>
+    </section>
+
+    <!-- ===== ADMIN ===== -->
+    <section id="view-admin" class="view hidden">
+      <div class="card">
+        <h3>🛡️ Admin — quản lý toàn bộ</h3>
+        <div id="admin-stats" class="stats-row"></div>
+        <button class="btn teal" id="btn-run-dist">🔄 Chạy chia việc ngay</button>
+        <span id="dist-result" class="muted small"></span>
+      </div>
+      <div class="card">
+        <h3>📌 Tất cả bài viết (ghim / hủy)</h3>
+        <div id="admin-posts"></div>
+      </div>
+      <div class="card">
+        <h3>🪙 Chỉnh điểm shop</h3>
+        <div id="admin-shops"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

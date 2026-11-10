@@ -1,0 +1,123 @@
+/* Seeding chéo Tăng Tốc Shop — bản public */
+:root{
+  --navy:#0b1e3a; --navy2:#123058; --teal:#0d9488; --teal2:#14b8a6;
+  --gold:#facc15; --gold2:#fde68a; --pink:#fdf2f8; --pink-line:#fbcfe8;
+  --ink:#0f172a; --muted:#64748b; --bg:#eef4fb; --card:#ffffff;
+  --radius:16px; --shadow:0 8px 24px rgba(15,40,80,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+.hidden{display:none !important}
+.muted{color:var(--muted)} .small{font-size:.86rem}
+a{color:var(--teal);font-weight:600;text-decoration:none}
+hr{border:none;border-top:1px solid #e2e8f0;margin:16px 0}
+h3{margin:4px 0 12px}
+
+/* ---------- nút & form ---------- */
+.btn{border:none;border-radius:999px;padding:9px 18px;font-weight:700;cursor:pointer;font-size:.95rem;transition:.15s}
+.btn.primary{background:linear-gradient(90deg,var(--teal),var(--teal2));color:#fff;box-shadow:0 6px 14px rgba(13,148,136,.35)}
+.btn.teal{background:linear-gradient(90deg,var(--teal),var(--teal2));color:#fff}
+.btn.ghost{background:#fff;border:2px solid #cbd5e1;color:var(--ink)}
+.btn.danger{background:#fee2e2;color:#b91c1c}
+.btn.small{padding:6px 12px;font-size:.85rem}
+.btn.big{width:100%;padding:12px;font-size:1rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn:hover:not(:disabled){transform:translateY(-1px)}
+input,select,textarea{width:100%;padding:10px 12px;border:2px solid #dbe4f0;border-radius:12px;font-size:.95rem;background:#f8fbff;margin:4px 0 10px}
+input:focus,select,textarea:focus{outline:none;border-color:var(--teal2)}
+label{font-weight:600;font-size:.9rem;display:block}
+.checkbox-row{display:flex;gap:8px;align-items:center;font-weight:500}
+.checkbox-row input{width:auto;margin:0}
+.inline-form{display:flex;gap:8px;flex-wrap:wrap}
+.inline-form input{flex:1;min-width:180px;margin:0}
+.inline-form .btn{align-self:center}
+.cost-hint{font-size:.88rem;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:7px 10px;margin:2px 0 10px}
+.cost-hint.warn{color:#b91c1c;background:#fef2f2;border-color:#fecaca}
+.alert{border-radius:10px;padding:9px 12px;margin:10px 0;font-size:.9rem}
+.alert.error{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+.alert.info{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+
+/* ---------- đăng nhập ---------- */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(1000px 500px at 20% 0%,#dbeafe,transparent),radial-gradient(800px 500px at 90% 100%,#fef9c3,transparent),var(--bg)}
+.auth-card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:32px 28px;max-width:420px;width:100%}
+.auth-logo{font-size:44px;text-align:center}
+.auth-card h1{text-align:center;margin:6px 0 2px;font-size:1.7rem}
+.auth-sub{text-align:center;color:var(--muted);font-size:.92rem;margin:4px 0 14px}
+.auth-switch{text-align:center;font-size:.9rem;color:var(--muted)}
+
+/* ---------- bố cục + thanh bên ---------- */
+.layout{display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:84px;background:linear-gradient(180deg,var(--navy),var(--navy2));color:#e2e8f0;padding:16px 12px;overflow:hidden;transition:width .28s ease;z-index:40;display:flex;flex-direction:column;gap:14px}
+.sidebar:hover,.sidebar:focus-within{width:320px;box-shadow:8px 0 30px rgba(2,12,30,.35);overflow-y:auto}
+.main{flex:1;margin-left:84px;padding:22px 26px;max-width:1180px}
+.side-brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.06em;font-size:.78rem;white-space:nowrap}
+.side-brand-icon{font-size:24px}
+.side-brand-text,.pill-text,.nav-label,.side-expanded-only{opacity:0;transition:opacity .18s}
+.sidebar:hover .side-brand-text,.sidebar:hover .pill-text,.sidebar:hover .nav-label,.sidebar:hover .side-expanded-only,
+.sidebar:focus-within .side-brand-text,.sidebar:focus-within .pill-text,.sidebar:focus-within .nav-label,.sidebar:focus-within .side-expanded-only{opacity:1}
+.side-shop-pill{display:flex;gap:10px;align-items:center;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#713f12;border-radius:14px;padding:8px;white-space:nowrap;overflow:hidden}
+.pill-badge{background:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.side-nav{display:flex;flex-direction:column;gap:6px}
+.nav-item{display:flex;align-items:center;gap:11px;background:transparent;border:none;color:#cbd5e1;font-size:.97rem;font-weight:600;padding:10px;border-radius:12px;cursor:pointer;text-align:left;white-space:nowrap}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.active{background:rgba(20,184,166,.22);color:#fff;box-shadow:inset 3px 0 0 var(--teal2)}
+.nav-ic{font-size:19px;flex:none}
+.nav-count{background:var(--gold);color:#713f12;border-radius:999px;font-size:.75rem;padding:1px 8px;font-weight:800}
+.side-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px;min-width:270px}
+.side-box h4{margin:0 0 8px;font-size:.9rem;color:#fff}
+.side-small{font-size:.83rem;color:#cbd5e1}
+.side-box input{background:#0f2a52;border-color:#1e3a5f;color:#fff}
+.side-box .cost-hint{min-width:250px}
+
+/* ---------- thẻ & danh sách ---------- */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:18px}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:16px;background:linear-gradient(100deg,#ffffff,#f0fdfa)}
+.hero h2{margin:2px 0}
+.hero-points{display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:999px;padding:10px 18px;font-size:1.3rem}
+.hero-points small{font-size:.8rem;font-weight:700}
+.tops-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.top-row{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:12px;padding:9px 14px;margin-bottom:8px;font-weight:700;color:#451a03}
+.top-row .pts{background:#fff;border-radius:999px;padding:2px 10px;font-size:.85rem}
+.rank-row{display:flex;justify-content:space-between;padding:8px 4px;border-bottom:1px dashed #e2e8f0}
+.rank-row:last-child{border-bottom:none}
+.task-line{display:flex;align-items:center;gap:10px;background:var(--pink);border:1px solid var(--pink-line);border-radius:12px;padding:10px 14px;margin-bottom:8px;flex-wrap:wrap}
+.task-line .grow{flex:1;min-width:160px}
+.pin-badge{background:#f59e0b;color:#fff;border-radius:999px;font-size:.72rem;padding:2px 8px;font-weight:800}
+.progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden;min-width:90px;flex:0 0 110px}
+.progress > div{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.progress-num{font-weight:800;white-space:nowrap}
+.ledger-row{display:flex;justify-content:space-between;gap:10px;padding:7px 2px;border-bottom:1px dashed #e2e8f0;font-size:.92rem}
+.ledger-row:last-child{border-bottom:none}
+.plus{color:#059669;font-weight:800}.minus{color:#dc2626;font-weight:800}
+
+/* ---------- nhiệm vụ làm việc ---------- */
+.nick-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.nick-tab{border:2px solid #dbe4f0;background:#fff;border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer}
+.nick-tab.active{border-color:var(--teal2);background:#f0fdfa}
+.work-card{border:2px solid #e2e8f0;border-radius:var(--radius);padding:16px;margin-bottom:14px;background:#fff}
+.work-card.current{border-color:var(--teal2);box-shadow:0 0 0 3px rgba(20,184,166,.15)}
+.work-card h4{margin:0 0 4px}
+.sample-box{background:#fffbeb;border:1px dashed #f59e0b;border-radius:12px;padding:10px 12px;margin:10px 0;font-size:1rem}
+.work-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.samples-preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;margin:8px 0;font-size:.92rem;max-height:220px;overflow:auto}
+.stats-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-weight:700}
+.stat b{display:block;font-size:1.25rem}
+.shop-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px dashed #e2e8f0;flex-wrap:wrap}
+.shop-row:last-child{border-bottom:none}
+.admin-adjust{display:flex;gap:6px;align-items:center}
+.admin-adjust input{width:80px;margin:0}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;box-shadow:var(--shadow);z-index:99}
+.empty{color:var(--muted);padding:10px 2px}
+
+/* ---------- điện thoại ---------- */
+@media (max-width:760px){
+  .layout{flex-direction:column}
+  .sidebar{position:static;width:100%;height:auto;overflow:visible}
+  .sidebar:hover,.sidebar:focus-within{width:100%}
+  .side-brand-text,.pill-text,.nav-label,.side-expanded-only{opacity:1}
+  .side-nav{flex-direction:row;flex-wrap:wrap}
+  .main{margin-left:0;padding:14px}
+  .tops-grid{grid-template-columns:1fr}
+  .hero{flex-direction:column;align-items:flex-start}
+}
