@@ -74,6 +74,7 @@
       <button data-view="tasks" class="nav-item"><img class="nav-ic" src="assets/icon-target.webp" alt=""><span class="nav-label">Nhiệm vụ</span><span class="nav-count" id="nav-task-count"></span></button>
       <button data-view="ranking" class="nav-item"><img class="nav-ic" src="assets/icon-trophy.webp" alt=""><span class="nav-label">Bảng xếp hạng</span></button>
       <button data-view="posts" class="nav-item"><img class="nav-ic" src="assets/icon-post.webp" alt=""><span class="nav-label">Bài viết</span></button>
+      <button data-view="guide" class="nav-item"><img class="nav-ic" src="assets/icon-guide.webp" alt=""><span class="nav-label">Hướng dẫn</span></button>
       <button data-view="account" class="nav-item"><img class="nav-ic" src="assets/icon-account.webp" alt=""><span class="nav-label">Tài khoản</span></button>
       <button data-view="admin" class="nav-item hidden" id="nav-admin"><img class="nav-ic" src="assets/icon-shield.webp" alt=""><span class="nav-label">Admin</span></button>
     </nav>
@@ -232,6 +233,58 @@
       <div class="card">
         <h3>📄 Bài của shop — mới nhất xếp trước, bài hoàn thành tự ẩn</h3>
         <div id="my-posts"></div>
+      </div>
+    </section>
+
+    <!-- ===== HƯỚNG DẪN SỬ DỤNG ===== -->
+    <section id="view-guide" class="view hidden">
+      <div class="card">
+        <h3><img class="h3-ic" src="assets/icon-guide.webp" alt="">Hướng dẫn sử dụng — bắt đầu trong 3 phút</h3>
+        <ol class="guide-list">
+          <li><b>Đăng ký shop</b> — bạn đã có sẵn <b>10 điểm</b> khởi tạo khi tạo shop.</li>
+          <li><b>Thêm nick Facebook</b> ở mục <b>Quản lý shop</b>: chỉ cần tên hiển thị + link profile, dùng được ngay, <b>không cần xác minh</b>. Mỗi shop tối đa <b>3 nick</b>. Mã nick (A01, A02...) chỉ là mã nội bộ để tính điểm — không xuất hiện trong comment.</li>
+          <li>Xong! Hệ thống sẽ <b>tự động chia việc</b> cho nick của bạn và chia bài của bạn cho shop khác.</li>
+        </ol>
+      </div>
+
+      <div class="guide-cols">
+        <div class="card">
+          <h3><img class="h3-ic" src="assets/icon-target.webp" alt="">Cách làm nhiệm vụ (kiếm điểm)</h3>
+          <ol class="guide-list">
+            <li>Vào mục <b>Nhiệm vụ</b>, chọn nick muốn làm.</li>
+            <li>Bấm <b>Mở bài</b> — web tự sao chép câu gợi ý và mở Facebook.</li>
+            <li>Dán câu gợi ý thành comment trên bài Facebook đó.</li>
+            <li>Quay lại web, bấm <b>Xong</b> (nút mở sau 25 giây kể từ lúc mở bài).</li>
+            <li>Bạn được <b>+1 điểm ngay</b> và hệ thống chuyển sang việc tiếp theo.</li>
+          </ol>
+          <p class="muted small">Mỗi nick làm tối đa 12 việc/ngày. Câu gợi ý chỉ là câu hỏi mua hàng/tư vấn thật (hỏi size, màu, giá, ship...) — <b>tuyệt đối không giả làm khách đã mua</b>.</p>
+        </div>
+        <div class="card">
+          <h3><img class="h3-ic" src="assets/icon-post.webp" alt="">Cách đăng bài nhận comment</h3>
+          <ol class="guide-list">
+            <li>Vào mục <b>Bài viết</b> → điền tên sản phẩm, link bài Facebook, dán caption bài bán hàng.</li>
+            <li>Chọn số comment muốn nhận (tối đa <b>50</b>) — form sẽ hiện rõ bài tốn tối đa bao nhiêu điểm so với số dư của bạn.</li>
+            <li>Bấm <b>Đăng bài</b> — hệ thống tự sinh câu gợi ý riêng cho từng comment và chia việc cho các shop khác.</li>
+          </ol>
+          <p class="muted small">Mỗi comment nhận về tốn <b>1 điểm</b>. Mỗi bài nhận tối đa <b>15 comment/ngày</b> nên bài 50 comment sẽ chạy trong khoảng 4 ngày. Bài đủ số comment sẽ <b>tự ẩn</b> khỏi danh sách.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><img class="h3-ic" src="assets/icon-coin.webp" alt="">Điểm &amp; luật công bằng cần biết</h3>
+        <ul class="guide-list">
+          <li><b>Điểm là vòng tuần hoàn:</b> đi comment cho shop khác để kiếm điểm → dùng điểm để bài của mình được nhận comment. Hết điểm thì bài tạm ngừng được chia, đi làm nhiệm vụ kiếm thêm là bài chạy tiếp.</li>
+          <li><b>Không ai phải seeding cho chính mình:</b> hệ thống không bao giờ giao việc của shop bạn cho nick của bạn.</li>
+          <li><b>Chống lộ seeding:</b> 1 nick không comment trùng vào 1 bài 2 lần; hai shop chỉ tương tác tối đa <b>2 bài/ngày</b> rồi nghỉ 3 ngày mới tương tác tiếp.</li>
+          <li>Xem lại mọi lần cộng/trừ điểm ở mục <b>Biến động điểm gần đây</b> tại trang Tổng quan.</li>
+        </ul>
+      </div>
+
+      <div class="card guide-faq">
+        <h3><img class="h3-ic" src="assets/icon-gear.webp" alt="">Hỏi nhanh</h3>
+        <p><b>Sao bài của tôi chưa được chia việc?</b><br>Thường do: shop đang hết điểm trống, chưa có nick của shop khác đang rảnh, hoặc hai shop vừa tương tác với nhau nên đang trong 3 ngày nghỉ. Cứ để bài đó, hệ thống sẽ tự chia tiếp khi đủ điều kiện.</p>
+        <p><b>Bấm "Xong" sớm hơn 25 giây có sao không?</b><br>Nút Xong bị khóa đúng 25 giây kể từ lúc bấm Mở bài — đây là thời gian tối thiểu để bạn kịp dán comment thật trên Facebook. Hết giờ nút tự mở.</p>
+        <p><b>Cần hỗ trợ thì gặp ai?</b><br>Liên hệ <b>TĂNG TỐC SHOP</b> — đơn vị vận hành hệ thống này (shop mã A, có huy hiệu Admin).</p>
       </div>
     </section>
 

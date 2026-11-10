@@ -391,7 +391,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 
   function showView(name) {
     currentView = name;
-    ["overview", "shops", "tasks", "ranking", "posts", "account", "admin"].forEach(function (v) {
+    ["overview", "shops", "tasks", "ranking", "posts", "guide", "account", "admin"].forEach(function (v) {
       $("view-" + v).classList.toggle("hidden", v !== name);
     });
     document.querySelectorAll("#side-nav .nav-item").forEach(function (b) {
