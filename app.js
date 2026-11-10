@@ -309,6 +309,9 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
       var btn = e.target.closest("[data-view]"); if (!btn) return;
       showView(btn.getAttribute("data-view"));
     });
+    document.querySelectorAll("[data-goto]").forEach(function (b) {
+      b.addEventListener("click", function () { showView(b.getAttribute("data-goto")); });
+    });
     $("btn-logout").addEventListener("click", signOut);
     $("btn-logout-2").addEventListener("click", signOut);
 
@@ -401,7 +404,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
   function topRows(items, label) {
     if (!items.length) return "<div class='empty'>Chưa có dữ liệu.</div>";
     return items.map(function (it, i) {
-      return "<div class='top-row'><span>" + (i + 1) + ", " + esc(it.code) + " · " + esc(it.name) + "</span><span class='pts'>" + it.value + " " + label + "</span></div>";
+      return "<div class='top-row'><span class='rank-badge'>" + (i + 1) + "</span><span class='grow'>" + esc(it.code) + " · " + esc(it.name) + "</span><span class='pts'>" + it.value + " " + label + "</span></div>";
     }).join("");
   }
   function tops() {
@@ -428,13 +431,15 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
   }
 
   function renderOverview() {
-    $("hero-title").textContent = "Xin chào, " + myShop.name + " 👋";
+    $("hero-title").textContent = myShop.code + " · " + myShop.name;
     $("hero-points").textContent = myShop.points;
+    $("hero-given-received").textContent = "Đã cho " + givenByShop(myShop.id) + " · Đã nhận " + receivedByShop(myShop.id);
     var t = tops();
     $("top-givers").innerHTML = topRows(t.givers, "điểm");
     $("top-receivers").innerHTML = topRows(t.receivers, "điểm");
     var ongoing = allPosts.filter(function (p) { return p.status === "active"; })
       .sort(function (a, b) { return (b.is_pinned - a.is_pinned) || (a.created_at < b.created_at ? 1 : -1); });
+    $("ongoing-count").textContent = ongoing.length ? "(" + ongoing.length + ")" : "";
     $("ongoing-list").innerHTML = ongoing.length ? ongoing.map(function (p) { return postLine(p, {}); }).join("")
       : "<div class='empty'>Chưa có nhiệm vụ nào đang diễn ra. Đăng bài đầu tiên ở mục Bài viết nhé!</div>";
     $("ledger-list").innerHTML = myLedger.length ? myLedger.map(function (l) {

@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Seeding chéo — Tăng Tốc Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
@@ -13,7 +15,7 @@
 <!-- ============ MÀN HÌNH ĐĂNG NHẬP / ĐĂNG KÝ ============ -->
 <div id="auth-view" class="auth-wrap hidden">
   <div class="auth-card">
-    <img class="auth-logo-img" src="assets/hero-rocket.webp" alt="Tăng Tốc Shop">
+    <div class="auth-banner"><img src="assets/hero-rocket.webp" alt="Tăng Tốc Shop"></div>
     <h1>Seeding chéo</h1>
     <p class="auth-sub">Cộng đồng shop sỉ tương tác chéo — Tăng Tốc Shop<br>
     Đăng nhập bằng email + mật khẩu, không cần OTP.</p>
@@ -61,13 +63,10 @@
 
   <!-- Thanh bên: mặc định thu nhỏ (chỉ icon), rê chuột vào thì mở rộng -->
   <aside id="sidebar" class="sidebar">
-    <div class="side-brand">
-      <img class="side-brand-img" src="assets/hero-rocket.webp" alt="">
-      <span class="side-brand-text">KHÔNG GIAN LÀM VIỆC</span>
-    </div>
+    <p class="sb-heading">Không gian làm việc</p>
     <div class="side-shop-pill">
-      <span class="pill-badge" id="pill-code">A</span>
-      <span class="pill-text"><b id="pill-name">Shop</b><br><small id="pill-points">0 điểm</small></span>
+      <img class="ic-tile ic-24" src="assets/icon-coin.webp" alt="">
+      <span class="pill-text"><b id="pill-code">A</b> · <b id="pill-name">Shop</b><br><small id="pill-points">0 điểm</small></span>
     </div>
     <nav class="side-nav" id="side-nav">
       <button data-view="overview" class="nav-item active"><img class="nav-ic" src="assets/icon-home.webp" alt=""><span class="nav-label">Tổng quan</span></button>
@@ -103,39 +102,51 @@
   </aside>
 
   <main class="main">
+   <div class="main-inner">
 
     <!-- ===== TỔNG QUAN ===== -->
     <section id="view-overview" class="view">
-      <div class="hero card">
-        <div>
-          <h2 id="hero-title">Xin chào 👋</h2>
-          <p>Đi comment cho shop khác để kiếm điểm — dùng điểm để bài của bạn được nhận comment.</p>
-          <div class="hero-points"><img class="ic-coin" src="assets/icon-coin.webp" alt=""><b id="hero-points">0</b><small>điểm</small></div>
+      <div class="hero-banner">
+        <img class="hero-bg" src="assets/hero-rocket.webp" alt="">
+        <div class="hero-shade"></div>
+        <div class="hero-inner">
+          <p class="hero-label"><img class="ic-tile ic-22" src="assets/icon-shop.webp" alt="">Shop đang dùng</p>
+          <h2 class="hero-title" id="hero-title">A · TĂNG TỐC SHOP</h2>
+          <p class="hero-meta"><span class="pill-gold"><img class="ic-tile ic-18" src="assets/icon-coin.webp" alt=""><span><b id="hero-points">0</b> điểm</span></span><span id="hero-given-received"></span></p>
         </div>
-        <img class="hero-rocket" src="assets/hero-rocket.webp" alt="Tên lửa Tăng Tốc Shop">
       </div>
 
       <div class="tops-grid">
-        <div class="card">
-          <h3>🔥 Top điểm đi tương tác</h3>
+        <section>
+          <h3 class="sec-title"><img class="ic-tile ic-28" src="assets/icon-target.webp" alt="">Top điểm đi tương tác</h3>
+          <p class="sec-sub">Xếp theo số comment đã đi seeding cho shop khác</p>
           <div id="top-givers"></div>
-        </div>
-        <div class="card">
-          <h3>💛 Top nhận điểm tương tác</h3>
+        </section>
+        <section>
+          <h3 class="sec-title"><img class="ic-tile ic-28" src="assets/icon-trophy.webp" alt="">Top nhận điểm tương tác</h3>
+          <p class="sec-sub">Xếp theo số comment đã nhận về bài của mình</p>
           <div id="top-receivers"></div>
+        </section>
+      </div>
+
+      <section class="block">
+        <div class="sec-head">
+          <h3 class="sec-title"><img class="ic-tile ic-28" src="assets/icon-post.webp" alt="">Nhiệm vụ đang diễn ra <span id="ongoing-count"></span></h3>
+          <div class="sec-actions">
+            <button type="button" class="btn primary small" data-goto="tasks">Đi làm việc</button>
+            <button type="button" class="btn ghost small" data-goto="posts">Bài của tôi</button>
+          </div>
         </div>
-      </div>
-
-      <div class="card">
-        <h3>📌 Nhiệm vụ đang diễn ra</h3>
-        <p class="muted small">Mỗi nhiệm vụ 1 dòng: shop · nhiệm vụ · link FB · yêu cầu · tiến độ. Bài đã hoàn thành sẽ tự ẩn.</p>
+        <p class="sec-sub">Mỗi nhiệm vụ 1 dòng: shop · nhiệm vụ · link FB · yêu cầu · tiến độ. Bài đã hoàn thành sẽ tự ẩn.</p>
         <div id="ongoing-list"></div>
-      </div>
+      </section>
 
-      <div class="card">
-        <h3>🧾 Biến động điểm gần đây</h3>
-        <div id="ledger-list"></div>
-      </div>
+      <section class="block">
+        <h3 class="sec-title"><img class="ic-tile ic-28" src="assets/icon-coin.webp" alt="">Biến động điểm gần đây</h3>
+        <div class="card" style="margin-top:10px">
+          <div id="ledger-list"></div>
+        </div>
+      </section>
     </section>
 
     <!-- ===== QUẢN LÝ SHOP ===== -->
@@ -256,6 +267,7 @@
       </div>
     </section>
 
+   </div>
   </main>
 </div>
 
